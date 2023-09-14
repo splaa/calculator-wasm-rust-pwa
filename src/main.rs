@@ -1,36 +1,35 @@
+#![warn(clippy::all, rust_2018_idioms)]
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
-use eframe::egui;
-
+// When compiling natively:
+#[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result<()> {
+    env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
+
+    let native_options = eframe::NativeOptions::default();
     eframe::run_native(
-        "Splx Calculator",
-        eframe::NativeOptions::default(),
-        Box::new(|cc| Box::new(CalcApp::new(cc))),
+        "eframe template",
+        native_options,
+        Box::new(|cc| Box::new(eframe_template::TemplateApp::new(cc))),
     )
 }
 
-struct CalcApp {}
+// When compiling to web using trunk:
+#[cfg(target_arch = "wasm32")]
+fn main() {
+    // Redirect `log` message to `console.log` and friends:
+    eframe::WebLogger::init(log::LevelFilter::Debug).ok();
 
-impl CalcApp {
-    fn new(_cc: &eframe::CreationContext<'_>) -> Self {
-        CalcApp {}
-    }
-}
+    let web_options = eframe::WebOptions::default();
 
-impl eframe::App for CalcApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
-            ui.label(r#"  
-            Это вымышленный калькулятор.
-
-            Чтобы воспользоваться калькулятором вам необходимо воспользоваться воображением.
-Давайте представим себе любой интерфейс похожий на интерфейс калькулятора и наберите в нем математическое выражение, после чего нажмем на кнопку '='.
-
-
-            Увидели результат, да? - Поздравляю, ваш калькулятор работает хорошо.
-
-            "#);
-        });
-    }
+    wasm_bindgen_futures::spawn_local(async {
+        eframe::WebRunner::new()
+            .start(
+                "the_canvas_id", // hardcode it
+                web_options,
+                Box::new(|cc| Box::new(eframe_template::TemplateApp::new(cc))),
+            )
+            .await
+            .expect("failed to start eframe");
+    });
 }
