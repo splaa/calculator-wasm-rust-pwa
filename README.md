@@ -14,3 +14,5 @@ cargo add eframe --no-default-features -F default_fonts -F glow -F persistence
 
 
 https://doc.rust-lang.org/cargo/reference/manifest.html
+
+https://docs.rs/eframe/latest/eframe/
