@@ -1,0 +1,23 @@
+[package]
+name = "calculator-wasm-rust-pwa"
+description = "A simple calculator created to demonstrate how to work with web gui on rust."
+authors = ["Andrii Lav <splaandrey@gmail.com>"]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74.0"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+eframe = { version = "0.22.0", default-features = false, features = ["default_fonts", "persistence"] }
+
+[profile.release]
+opt-level = 2 # fast and small wasm
+codegen-units = 1
+lto = true
+panic = "abort"
+
+# Optimize all dependencies even in debug builds:
+[profile.dev.package."*"]
+opt-level = 2
