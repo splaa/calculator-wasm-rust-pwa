@@ -1,5 +1,3 @@
-# '.github/workflows/pages.yml'
-
 name: Github Pages
 
 # By default, runs if you push to master. keeps your deployed app in sync with master branch.
