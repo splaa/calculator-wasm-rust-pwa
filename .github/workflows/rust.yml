@@ -1,4 +1,4 @@
-# .github/workflows/build_binaries.yml
+# '.github/workflows/build_binaries.yml'
 name: Build binaries
 
 on:
