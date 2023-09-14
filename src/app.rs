@@ -112,5 +112,6 @@ impl eframe::App for TemplateApp {
                 ui.label("You would normally choose either panels OR windows.");
             });
         }
+
     }
 }
